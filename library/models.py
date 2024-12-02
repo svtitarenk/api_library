@@ -1,6 +1,5 @@
 from django.db import models
 from django.conf import settings
-from datetime import date
 from django.db.models import Avg
 
 NULLABLE = {"null": True, "blank": True}
