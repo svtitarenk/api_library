@@ -1,6 +1,5 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, filters
-from rest_framework.response import Response
 from django.db.models import Q
 
 from library.filters import BookFilter
@@ -25,19 +24,13 @@ class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticated]
-    # pagination_class = paginators.CustomPagination
-    # filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_class = BookFilter  # ['title', 'author__name', 'genre']
     ordering_fields = ['title', 'published_date', 'author__name']
     ordering = ['title']
 
-    # search_fields = ('action',)
-    # ordering_fields = ('frequency',)
-
     def perform_create(self, serializer):
         serializer.save()
-        # serializer.save(user=self.request.user)  # Автоматическое назначение создателя
 
     def get_queryset(self):
         """

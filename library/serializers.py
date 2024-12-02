@@ -69,7 +69,17 @@ class BookIssueSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BookIssue
-        fields = ['id', 'book', 'book_title', 'user', 'user_email', 'issue_date', 'return_date', 'is_returned', 'rating']
+        fields = [
+            'id',
+            'book',
+            'book_title',
+            'user',
+            'user_email',
+            'issue_date',
+            'return_date',
+            'is_returned',
+            'rating'
+        ]
         read_only_fields = ['is_returned', 'issue_date']
         ordering = '-return_date'
 
@@ -88,6 +98,10 @@ class BookIssueSerializer(serializers.ModelSerializer):
             # Обновляем статистику пользователя
             user = instance.user
             days_held = instance.calculate_days_held()
+            # Проверка в тестах
+            # print(f"Updating user stats: total_books_taken={user.total_books_taken + 1}, "
+            #       f"total_days_held_books={user.total_days_held_books + days_held}"
+            #       )
             user.total_books_taken += 1
             user.total_days_held_books += days_held
             user.save()
